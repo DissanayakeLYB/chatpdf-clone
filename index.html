@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ChatPDF Wrapper</title>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="header">
+            <h1><i class="fas fa-file-pdf"></i> ChatPDF Wrapper</h1>
+        </div>
+
+        <div class="container">
+            <div class="sidebar">
+                <div class="api-config">
+                    <label for="apiKey"
+                        ><strong>ChatPDF API Key:</strong></label
+                    >
+                    <input
+                        type="password"
+                        id="apiKey"
+                        class="api-input"
+                        placeholder="Enter your ChatPDF API key"
+                    />
+                    <button
+                        onclick="saveApiKey()"
+                        class="btn"
+                        style="
+                            margin-top: 0.5rem;
+                            font-size: 0.875rem;
+                            padding: 0.5rem 1rem;
+                        "
+                    >
+                        <i class="fas fa-save"></i> Save Key
+                    </button>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: #1e293b">
+                    <i class="fas fa-folder"></i> Documents
+                </h3>
+                <div id="documentsList">
+                    <p style="color: #64748b; font-style: italic">
+                        No documents uploaded yet
+                    </p>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="upload-section">
+                    <div
+                        class="upload-area"
+                        onclick="document.getElementById('fileInput').click()"
+                    >
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; color: #1e293b">
+                            Upload PDF Document
+                        </h3>
+                        <p style="color: #64748b">
+                            Click here or drag and drop your PDF file
+                        </p>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            class="file-input"
+                            accept=".pdf"
+                            onchange="handleFileUpload(event)"
+                        />
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="messages" id="messages">
+                        <div class="message assistant">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                Welcome! Upload a PDF document to start chatting
+                                with it. I can answer questions, summarize
+                                content, and help you understand your documents.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input">
+                        <div class="input-container">
+                            <textarea
+                                id="messageInput"
+                                class="message-input"
+                                placeholder="Ask a question about your document..."
+                                rows="2"
+                                onkeydown="handleKeyDown(event)"
+                            ></textarea>
+                            <button
+                                onclick="sendMessage()"
+                                class="btn"
+                                id="sendBtn"
+                            >
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
