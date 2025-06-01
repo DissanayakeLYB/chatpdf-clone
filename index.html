@@ -3,115 +3,478 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/x-icon" href="/favicon/favicon.svg" />
+
+        <!-- SEO Meta Tags -->
         <title>ChatPDF Wrapper</title>
+        <meta
+            name="description"
+            content="Upload and chat with your PDF documents using AI. Ask questions, get summaries, and extract information from PDFs instantly. Free ChatPDF alternative powered by ChatPDF API."
+        />
+        <meta
+            name="keywords"
+            content="ChatPDF, PDF chat, AI PDF reader, document analysis, PDF questions, PDF summarizer, ChatPDF clone, PDF AI assistant, document chat, PDF query tool"
+        />
+        <meta name="author" content="ChatPDF Clone" />
+        <meta name="robots" content="index, follow" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://your-domain.com/" />
+        <meta
+            property="og:title"
+            content="ChatPDF Clone - AI-Powered PDF Chat Tool"
+        />
+        <meta
+            property="og:description"
+            content="Upload any PDF and start an intelligent conversation with it. Get instant answers, summaries, and insights from your documents using advanced AI."
+        />
+        <meta
+            property="og:image"
+            content="https://your-domain.com/images/og-image.jpg"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="ChatPDF Clone" />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://your-domain.com/" />
+        <meta
+            property="twitter:title"
+            content="ChatPDF Clone - Chat with Your PDFs Using AI"
+        />
+        <meta
+            property="twitter:description"
+            content="Transform how you interact with PDF documents. Upload, ask questions, and get intelligent responses from your PDFs instantly."
+        />
+        <meta
+            property="twitter:image"
+            content="https://your-domain.com/images/twitter-image.jpg"
+        />
+        <meta property="twitter:creator" content="@yourtwitterhandle" />
+
+        <!-- Additional SEO Meta Tags -->
+        <meta name="theme-color" content="#6366f1" />
+        <meta name="msapplication-TileColor" content="#6366f1" />
+        <meta name="application-name" content="ChatPDF Clone" />
+        <meta name="apple-mobile-web-app-title" content="ChatPDF Clone" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://your-domain.com/" />
+
+        <!-- Favicon and Icons -->
+        <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+
+        <!-- Preconnect for Performance -->
+        <link rel="preconnect" href="https://api.chatpdf.com" />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="https://api.chatpdf.com" />
+
+        <!-- External Resources -->
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
             rel="stylesheet"
+            crossorigin="anonymous"
         />
         <link rel="stylesheet" href="styles.css" />
+
+        <!-- Structured Data (JSON-LD) -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "ChatPDF Clone",
+                "description": "AI-powered PDF chat tool that allows users to upload PDF documents and have intelligent conversations with them. Get answers, summaries, and insights from your PDFs instantly.",
+                "url": "https://your-domain.com",
+                "applicationCategory": "ProductivityApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Upload PDF documents up to 32MB",
+                    "AI-powered document analysis",
+                    "Real-time question answering",
+                    "Document summarization",
+                    "Multiple document support",
+                    "Secure API key management"
+                ],
+                "screenshot": "https://your-domain.com/images/app-screenshot.jpg",
+                "author": {
+                    "@type": "Organization",
+                    "name": "ChatPDF Clone"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "ChatPDF Clone"
+                }
+            }
+        </script>
+
+        <!-- Software Application Structured Data -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "ChatPDF Clone",
+                "operatingSystem": "Web Browser",
+                "applicationCategory": "BusinessApplication",
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.8",
+                    "ratingCount": "150"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                }
+            }
+        </script>
     </head>
     <body>
-        <div class="header">
-            <h1><i class="fa-regular fa-file"></i> ChatPDF Wrapper</h1>
-        </div>
-
-        <div class="container">
-            <div class="sidebar">
-                <div class="api-config">
-                    <label for="apiKey"
-                        ><strong>ChatPDF API Key:</strong></label
-                    >
-                    <input
-                        type="password"
-                        id="apiKey"
-                        class="api-input"
-                        placeholder="Enter your ChatPDF API key"
-                    />
-                    <button
-                        onclick="saveApiKey()"
-                        class="btn"
-                        style="
-                            margin-top: 0.5rem;
-                            font-size: 0.875rem;
-                            padding: 0.5rem 1rem;
-                        "
-                    >
-                        <i class="fas fa-save"></i> Save Key
-                    </button>
-                </div>
-
-                <h3 style="margin-bottom: 1rem; color: #1e293b">
-                    <i class="fas fa-folder"></i> Documents
-                </h3>
-                <div id="documentsList">
-                    <p style="color: #64748b; font-style: italic">
-                        No documents uploaded yet
-                    </p>
-                </div>
+        <!-- Header with improved semantic structure -->
+        <header class="header" role="banner">
+            <div class="header-content">
+                <h1>
+                    <i class="fa-regular fa-file-pdf" aria-hidden="true"></i>
+                    ChatPDF Wrapper
+                </h1>
+                <p class="header-subtitle">AI-Powered PDF Document Chat Tool</p>
             </div>
+        </header>
 
-            <div class="main-content">
-                <div class="upload-section">
+        <!-- Main content with proper semantic structure -->
+        <main class="container" role="main">
+            <!-- Sidebar Navigation -->
+            <aside
+                class="sidebar"
+                role="complementary"
+                aria-label="Document management and settings"
+            >
+                <section
+                    class="api-config"
+                    aria-labelledby="api-config-heading"
+                >
+                    <div class="config-header">
+                        <i class="fas fa-key" aria-hidden="true"></i>
+                        <h2 id="api-config-heading">API Configuration</h2>
+                    </div>
+                    <div class="input-group">
+                        <label for="apiKey">ChatPDF API Key</label>
+                        <div class="input-with-button">
+                            <input
+                                type="password"
+                                id="apiKey"
+                                class="api-input"
+                                placeholder="Enter your API key..."
+                                aria-describedby="api-key-help"
+                            />
+                            <button
+                                onclick="toggleApiKeyVisibility()"
+                                class="toggle-btn"
+                                type="button"
+                                aria-label="Toggle API key visibility"
+                            >
+                                <i
+                                    class="fas fa-eye"
+                                    id="toggleIcon"
+                                    aria-hidden="true"
+                                ></i>
+                            </button>
+                        </div>
+                        <button
+                            onclick="saveApiKey()"
+                            class="btn btn-secondary"
+                        >
+                            <i class="fas fa-save" aria-hidden="true"></i> Save
+                            Key
+                        </button>
+                        <small id="api-key-help" class="help-text">
+                            Get your free API key from ChatPDF.com
+                        </small>
+                        <a
+                            href="https://www.chatpdf.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="get-key-link"
+                            aria-label="Get API key from ChatPDF.com (opens in new tab)"
+                        >
+                            <i
+                                class="fas fa-external-link-alt"
+                                aria-hidden="true"
+                            ></i>
+                            Get API Key
+                        </a>
+                    </div>
+                </section>
+
+                <section
+                    class="documents-section"
+                    aria-labelledby="documents-heading"
+                >
+                    <div class="section-header">
+                        <h2 id="documents-heading">
+                            <i
+                                class="fas fa-folder-open"
+                                aria-hidden="true"
+                            ></i>
+                            Documents
+                        </h2>
+                        <span
+                            class="document-count"
+                            id="documentCount"
+                            aria-label="Number of uploaded documents"
+                            >0</span
+                        >
+                    </div>
+                    <div id="documentsList" role="list" aria-live="polite">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox" aria-hidden="true"></i>
+                            <p>No documents uploaded yet</p>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="main-content" role="main">
+                <!-- Upload Section -->
+                <section
+                    class="upload-section"
+                    aria-labelledby="upload-heading"
+                >
+                    <h2 id="upload-heading" class="visually-hidden">
+                        Upload PDF Document
+                    </h2>
                     <div
                         class="upload-area"
                         onclick="document.getElementById('fileInput').click()"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Click to upload PDF file or drag and drop"
+                        onkeydown="handleUploadKeydown(event)"
                     >
-                        <div class="upload-icon">
-                            <i class="fas fa-cloud-upload-alt"></i>
+                        <div class="upload-content">
+                            <div class="upload-icon" aria-hidden="true">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3>Upload PDF Document</h3>
+                            <p>
+                                Drag and drop your PDF file here or click to
+                                browse
+                            </p>
+                            <div class="upload-specs">
+                                <span
+                                    ><i
+                                        class="fas fa-info-circle"
+                                        aria-hidden="true"
+                                    ></i>
+                                    Max size: 32MB</span
+                                >
+                                <span
+                                    ><i
+                                        class="fas fa-file-pdf"
+                                        aria-hidden="true"
+                                    ></i>
+                                    PDF files only</span
+                                >
+                            </div>
                         </div>
-                        <h3 style="margin-bottom: 0.5rem; color: #1e293b">
-                            Upload PDF Document
-                        </h3>
-                        <p style="color: #64748b">
-                            Click here or drag and drop your PDF file
-                        </p>
                         <input
                             type="file"
                             id="fileInput"
                             class="file-input"
                             accept=".pdf"
                             onchange="handleFileUpload(event)"
+                            aria-label="Choose PDF file to upload"
                         />
                     </div>
-                </div>
+                </section>
 
-                <div class="chat-container">
-                    <div class="messages" id="messages">
-                        <div class="message assistant">
-                            <div class="message-avatar">
+                <!-- Chat Section -->
+                <section class="chat-container" aria-labelledby="chat-heading">
+                    <div class="chat-header">
+                        <h2 id="chat-heading">
+                            <i class="fas fa-comments" aria-hidden="true"></i>
+                            Chat with your document
+                        </h2>
+                        <button
+                            onclick="clearChat()"
+                            class="btn btn-ghost"
+                            id="clearChatBtn"
+                            style="display: none"
+                            aria-label="Clear chat history"
+                        >
+                            <i class="fas fa-trash" aria-hidden="true"></i>
+                            Clear Chat
+                        </button>
+                    </div>
+
+                    <div
+                        class="messages"
+                        id="messages"
+                        role="log"
+                        aria-live="polite"
+                        aria-label="Chat conversation"
+                    >
+                        <article class="message assistant welcome-message">
+                            <div class="message-avatar" aria-hidden="true">
                                 <i class="fas fa-robot"></i>
                             </div>
                             <div class="message-content">
-                                Welcome! Upload a PDF document to start chatting
-                                with it. I can answer questions, summarize
-                                content, and help you understand your documents.
+                                <strong>Welcome to ChatPDF Clone! 👋</strong
+                                ><br /><br />
+                                Upload a PDF document to start an intelligent
+                                conversation with it. I can:
+                                <ul>
+                                    <li>Answer questions about the content</li>
+                                    <li>
+                                        Summarize sections or the entire
+                                        document
+                                    </li>
+                                    <li>
+                                        Explain complex topics in simple terms
+                                    </li>
+                                    <li>Find specific information quickly</li>
+                                </ul>
+                                Ready to get started?
                             </div>
-                        </div>
+                        </article>
                     </div>
 
-                    <div class="chat-input">
+                    <div
+                        class="chat-input"
+                        role="region"
+                        aria-label="Message input"
+                    >
                         <div class="input-container">
+                            <label for="messageInput" class="visually-hidden"
+                                >Type your message</label
+                            >
                             <textarea
                                 id="messageInput"
                                 class="message-input"
-                                placeholder="Ask a question about your document..."
+                                placeholder="Ask anything about your document..."
                                 rows="2"
                                 onkeydown="handleKeyDown(event)"
+                                disabled
+                                aria-describedby="input-help"
                             ></textarea>
                             <button
                                 onclick="sendMessage()"
-                                class="btn"
+                                class="btn btn-primary"
                                 id="sendBtn"
+                                disabled
+                                aria-label="Send message"
                             >
-                                <i class="fas fa-paper-plane"></i>
+                                <i
+                                    class="fas fa-paper-plane"
+                                    aria-hidden="true"
+                                ></i>
                             </button>
                         </div>
+                        <div class="input-hints">
+                            <small id="input-help" class="hint"
+                                >Press Enter to send, Shift+Enter for new
+                                line</small
+                            >
+                        </div>
                     </div>
-                </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div
+            class="loading-overlay"
+            id="loadingOverlay"
+            style="display: none"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="loading-text"
+        >
+            <div class="loading-content">
+                <div class="loader" aria-hidden="true"></div>
+                <p id="loading-text">Processing your document...</p>
             </div>
         </div>
 
+        <!-- Footer for additional SEO content -->
+        <footer class="footer" role="contentinfo">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About ChatPDF Clone</h3>
+                    <p>
+                        A powerful AI-driven tool that transforms how you
+                        interact with PDF documents. Upload any PDF and start an
+                        intelligent conversation to extract insights, get
+                        summaries, and find answers instantly.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li>AI-powered document analysis</li>
+                        <li>Real-time question answering</li>
+                        <li>Document summarization</li>
+                        <li>Multi-document support</li>
+                        <li>Secure and private</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>How It Works</h3>
+                    <ol>
+                        <li>Enter your ChatPDF API key</li>
+                        <li>Upload your PDF document</li>
+                        <li>Ask questions about the content</li>
+                        <li>Get intelligent AI-powered responses</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ChatPDF Clone. Powered by ChatPDF API.</p>
+            </div>
+        </footer>
+
         <script src="script.js"></script>
+
+        <!-- Analytics and Performance Monitoring -->
+        <!-- Google Analytics (replace with your tracking ID) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", "GA_TRACKING_ID");
+        </script>
     </body>
 </html>

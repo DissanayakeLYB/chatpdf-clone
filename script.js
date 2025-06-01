@@ -6,14 +6,24 @@ let apiKey = "";
 window.onload = function () {
     loadApiKey();
     setupDragAndDrop();
+    updateDocumentCount();
 };
 
 function loadApiKey() {
-    // In a real app, you'd want to store this securely
-    const stored = prompt("Please enter your ChatPDF API key:");
+    // Check if API key exists in localStorage first
+    const stored = localStorage.getItem("chatpdf_api_key");
     if (stored) {
         apiKey = stored;
         document.getElementById("apiKey").value = stored;
+        return;
+    }
+
+    // If not found, prompt user
+    const key = prompt("Please enter your ChatPDF API key:");
+    if (key) {
+        apiKey = key;
+        document.getElementById("apiKey").value = key;
+        localStorage.setItem("chatpdf_api_key", key);
     }
 }
 
@@ -21,9 +31,26 @@ function saveApiKey() {
     const key = document.getElementById("apiKey").value.trim();
     if (key) {
         apiKey = key;
+        localStorage.setItem("chatpdf_api_key", key);
         showMessage("API key saved successfully!", "success");
+        enableChatIfReady();
     } else {
         showMessage("Please enter a valid API key", "error");
+    }
+}
+
+function toggleApiKeyVisibility() {
+    const input = document.getElementById("apiKey");
+    const icon = document.getElementById("toggleIcon");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    } else {
+        input.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
     }
 }
 
@@ -35,8 +62,11 @@ function setupDragAndDrop() {
         uploadArea.classList.add("dragover");
     });
 
-    uploadArea.addEventListener("dragleave", () => {
-        uploadArea.classList.remove("dragover");
+    uploadArea.addEventListener("dragleave", (e) => {
+        // Only remove dragover if we're leaving the upload area entirely
+        if (!uploadArea.contains(e.relatedTarget)) {
+            uploadArea.classList.remove("dragover");
+        }
     });
 
     uploadArea.addEventListener("drop", (e) => {
@@ -69,7 +99,6 @@ async function handleFile(file) {
     }
 
     if (file.size > 32 * 1024 * 1024) {
-        // 32MB limit
         showMessage("File size must be less than 32MB", "error");
         return;
     }
@@ -78,6 +107,7 @@ async function handleFile(file) {
     formData.append("file", file);
 
     try {
+        showLoadingOverlay(true);
         showMessage("Uploading document...", "loading");
 
         const response = await fetch(
@@ -104,6 +134,8 @@ async function handleFile(file) {
             documents.push(doc);
 
             updateDocumentsList();
+            updateDocumentCount();
+            enableChatIfReady();
             showMessage(`Successfully uploaded: ${file.name}`, "success");
 
             // Clear the file input
@@ -114,6 +146,8 @@ async function handleFile(file) {
     } catch (error) {
         console.error("Upload error:", error);
         showMessage(`Upload failed: ${error.message}`, "error");
+    } finally {
+        showLoadingOverlay(false);
     }
 }
 
@@ -121,30 +155,59 @@ function updateDocumentsList() {
     const docsList = document.getElementById("documentsList");
 
     if (documents.length === 0) {
-        docsList.innerHTML =
-            '<p style="color: #64748b; font-style: italic;">No documents uploaded yet</p>';
+        docsList.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No documents uploaded yet</p>
+            </div>
+        `;
         return;
     }
 
     docsList.innerHTML = documents
         .map(
             (doc) => `
-                <div class="document-item">
-                    <div class="document-name">${doc.name}</div>
-                    <div class="document-meta">
-                        <span>${formatFileSize(doc.size)} • ${
-                doc.uploadTime
-            }</span>
-                        <button class="delete-btn" onclick="deleteDocument('${
-                            doc.id
-                        }')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
+            <div class="document-item">
+                <div class="document-name">${doc.name}</div>
+                <div class="document-meta">
+                    <span>${formatFileSize(doc.size)} • ${doc.uploadTime}</span>
+                    <button class="delete-btn" onclick="deleteDocument('${
+                        doc.id
+                    }')" title="Delete document">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
-            `
+            </div>
+        `
         )
         .join("");
+}
+
+function updateDocumentCount() {
+    const countElement = document.getElementById("documentCount");
+    countElement.textContent = documents.length;
+}
+
+function enableChatIfReady() {
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const clearBtn = document.getElementById("clearChatBtn");
+
+    const hasApiKey = !!apiKey;
+    const hasDocument = !!currentSourceId;
+    const canChat = hasApiKey && hasDocument;
+
+    messageInput.disabled = !canChat;
+    sendBtn.disabled = !canChat;
+
+    if (canChat) {
+        messageInput.placeholder = "Ask anything about your document...";
+        clearBtn.style.display = "inline-flex";
+    } else if (!hasApiKey) {
+        messageInput.placeholder = "Enter your API key first...";
+    } else {
+        messageInput.placeholder = "Upload a document to start chatting...";
+    }
 }
 
 function formatFileSize(bytes) {
@@ -161,6 +224,8 @@ async function deleteDocument(sourceId) {
     }
 
     try {
+        showMessage("Deleting document...", "loading");
+
         await fetch(`https://api.chatpdf.com/v1/sources/delete`, {
             method: "POST",
             headers: {
@@ -180,11 +245,31 @@ async function deleteDocument(sourceId) {
         }
 
         updateDocumentsList();
+        updateDocumentCount();
+        enableChatIfReady();
         showMessage("Document deleted successfully", "success");
     } catch (error) {
         console.error("Delete error:", error);
         showMessage("Failed to delete document", "error");
     }
+}
+
+function clearChat() {
+    if (!confirm("Are you sure you want to clear the chat history?")) {
+        return;
+    }
+
+    const messagesContainer = document.getElementById("messages");
+    messagesContainer.innerHTML = `
+        <div class="message assistant welcome-message">
+            <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+                Chat cleared! You can continue asking questions about your document.
+            </div>
+        </div>
+    `;
 }
 
 function handleKeyDown(event) {
@@ -213,6 +298,9 @@ async function sendMessage() {
     // Add user message to chat
     addMessageToChat(message, "user");
     messageInput.value = "";
+
+    // Auto-resize textarea
+    messageInput.style.height = "auto";
 
     // Show loading state
     const loadingId = addMessageToChat("Thinking...", "assistant", true);
@@ -272,23 +360,29 @@ function addMessageToChat(content, sender, isLoading = false) {
         sender === "user"
             ? '<i class="fas fa-user"></i>'
             : '<i class="fas fa-robot"></i>';
+
     const loadingSpinner = isLoading ? '<div class="spinner"></div>' : "";
 
     messageDiv.innerHTML = `
-                <div class="message-avatar">${avatar}</div>
-                <div class="message-content">
-                    ${
-                        isLoading
-                            ? `<div class="loading">${loadingSpinner} ${content}</div>`
-                            : content
-                    }
-                </div>
-            `;
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-content">
+            ${
+                isLoading
+                    ? `<div class="loading">${loadingSpinner} ${content}</div>`
+                    : content
+            }
+        </div>
+    `;
 
     messagesContainer.appendChild(messageDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
     return messageId;
+}
+
+function showLoadingOverlay(show) {
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.style.display = show ? "flex" : "none";
 }
 
 function showMessage(message, type) {
@@ -318,3 +412,9 @@ function showMessage(message, type) {
         }, 5000);
     }
 }
+
+// Auto-resize textarea
+document.getElementById("messageInput").addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+});
