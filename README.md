@@ -14,24 +14,9 @@ Upload PDF documents and chat with them using AI. Get instant answers, summaries
 
 ## 🚀 Quick Start
 
-1. **Clone the repo**
+1. **Get API key** from [chatpdf.com](https://chatpdf.com)
 
-    ```bash
-    git clone https://github.com/DissanayakeLYB/chatpdf-clone.git
-    cd chatpdf-clone
-    ```
-
-2. **Start local server**
-
-    ```bash
-    python -m http.server 8000
-    # or
-    npx serve .
-    ```
-
-3. **Get API key** from [chatpdf.com](https://chatpdf.com)
-
-4. **Open browser** → Enter API key → Upload PDF → Start chatting!
+2. **Open browser** → Enter API key → Upload PDF → Start chatting!
 
 ## 🛠️ Tech Stack
 
