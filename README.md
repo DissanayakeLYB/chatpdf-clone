@@ -2,7 +2,7 @@
 
 Upload PDF documents and chat with them using AI. Get instant answers, summaries, and insights from your documents.
 
-![ChatPDF Clone Demo](https://chatpdf-wrapper.netlify.app/)
+[![ChatPDF Clone Demo](https://chatpdf-wrapper.netlify.app/)](https://github.com/DissanayakeLYB/chatpdf-clone/blob/main/ChatPDF_wrapper.png?raw=true)
 
 ## ✨ Features
 
